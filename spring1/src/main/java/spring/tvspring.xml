@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 
+객체 생성
+jsp? <jsp:useBean id="obj" class="aaa.A"/>
+java? aaa.A obj = new aaa.A();
+spring는? bean태그 사용!
+ -->
+
+<bean id="tv" class="spring.LgTv"/>
+<!-- spring패키지안의 LgTv클래스의 객체를 만드는데 객체명을 tv로 설정  -->
+<!-- 즉, spring에 객체 생성 일임 -->
+<!-- 즉, bean을 객체로 생각하면 이해 쉬움 -->
+
+<bean id="tv2" class="spring.SamsungTV"/> 
+
+</beans>

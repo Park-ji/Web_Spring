@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans">
+
+<!-- mybatis-config.xml 설정들을 spring.xml로 이동 -->
+<!-- <configuration> Spring에서는 사용하지 못하는 태그 -->
+<!-- <configuration> -->
+<!-- 2번 과정에서 mybatis-config.xml에 있는 <typeAliases> 설정 읽어옴 -->
+<!-- <typeAliases> <typeAlias type="myBatis.EmpVO" alias="emp" /> </typeAliases> -->
+
+<!-- 1. Spring 드라이버, IP, Port, 계정, 암호 설정 : DB 연결 DataSource 생성 -->
+<!-- <environments default="myDB"> <environment id="myDB"> DataBase Connection 정보 <transactionManager type="JDBC" /> dataSource = 일정 개수 Connection Pool 생성 <dataSource type="POOLED"> Driver Setting <property name="driver" value="oracle.jdbc.driver.OracleDriver" /> <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" /> <property name="username" value="hr" /> <property name="password" value="hr" /> </dataSource> </environment> </environments> -->
+<!-- == -->
+
+
+
+<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+<property value="oracle.jdbc.driver.OracleDriver" name="driverClassName"/>
+<property value="jdbc:oracle:thin:@localhost:1521:xe" name="url"/>
+<property value="hr" name="username"/>
+<property value="hr" name="password"/>
+</bean>
+
+<!-- 2. 테이블 관련 SQL 정의한 매핑파일 설정 -->
+<!-- <mappers> SQL문 정의한 XML 파일 연결 <mapper resource="myBatis/emp-mapping.xml" /> 여러개 매핑 가능 </mappers> -->
+<!-- == -->
+<!-- 2. SqlSessionFactory 생성 설정 -->
+
+
+
+<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+<property name="dataSource" ref="dataSource"/>
+<!-- typeAliases 설정때문에 mybatis-config.xml의 설정을 읽어와야함 -->
+<!-- java 소스? 패키지? 밑에 있으면 경로지정시 classpath: 사용 -->
+<property value="classpath:/mybatis/spring/mybatis-config.xml" name="configLocation"/>
+<!-- mapperLocations 복수개 표현이기 때문에 여러개의 mapping.xml을 가져올 수 있음 : *-mapping.xml -->
+<property value="classpath:/mybatis/spring/emp-mapping.xml" name="mapperLocations"/>
+</bean>
+
+<!-- 3. MyBatis SqlSession 객체 = Spring SqlSessionTemplate -->
+<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+<!-- <property> = setter 호출할 때 사용, 매개변수가 있다면 <constructor-arg>-->
+
+<constructor-arg ref="sqlSessionFactory"/>
+</bean>
+<!-- </configuration> -->
+
+
+</beans>

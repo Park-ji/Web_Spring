@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- 0. typeAlias -->
+	<typeAliases>
+		<typeAlias type="mybatis.spring.EmpVO" alias="emp" />
+	</typeAliases>
+
+<!-- 
+	1. 드라이버, IP, Port, 계정, 암호 설정
+	environment 중에서 기본값 설정
+	<environments default="myDB">
+		계정이 여러개거나 다른 DB 접속하고 싶으면 여러개 environment 생성
+		<environment id="myDB">
+			DataBase Connection 정보
+			<transactionManager type="JDBC" />
+			dataSource = 일정 개수 Connection Pool 생성
+			<dataSource type="POOLED">
+				Driver Setting
+				<property name="driver"
+					value="oracle.jdbc.driver.OracleDriver" />
+				<property name="url"
+					value="jdbc:oracle:thin:@localhost:1521:xe" />
+				<property name="username" value="hr" />
+				<property name="password" value="hr" />
+			</dataSource>
+		</environment>
+	</environments>
+
+
+	2. 테이블 관련 SQL 정의한 매핑파일 설정
+	<mappers>
+		SQL문 정의한 XML 파일 연결
+		<mapper resource="myBatis/emp-mapping.xml" />
+		여러개 매핑 가능
+	</mappers>
+-->
+
+</configuration>

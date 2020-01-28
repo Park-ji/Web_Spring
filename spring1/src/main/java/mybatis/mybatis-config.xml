@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- mybatis 선언부분 -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<!-- 설정부분 -->
+<configuration>
+<!-- 0.  typealias : 하면 좋고 안해도 괜찮은 과정  -->
+<!-- sql태그 안에서 패키지명 너무 길때, alias 해놓으면 관리 쉬움(패키지가 변경되더라도) -->
+<!-- 클래스 타입줄때 패키지명까지 명시해야함 : mybatis.EmpVO -->
+ <typeAliases>
+ <typeAlias type="mybatis.EmpVO" alias="emp"/>
+ </typeAliases>
+  
+	<!-- 1. 드라이버, ip, port, 계정, 암호 설정 -->
+	<!-- 여러개의 environment가 있을 때 사용할 default environment -->
+	<environments default="mydb">
+		<!-- envrionment가 여러개 존재 가능(ex, 다른 계정 사용시) : 단, id는 다르게 부여 -->
+		<!-- 아래의 db연결과정에 대한 id값을 부여 -->
+		<environment id="mydb">
+			<!-- JDBC처럼 사용함 -->
+			<transactionManager type="JDBC" />
+			<!-- 일정 갯수 con pool 생성 -->
+			<dataSource type="POOLED">
+				<!-- mybatis에서 드라이버를 찾을때? driver라는 이름을 찾음(name='driver') -->
+				<property name="driver"
+					value="oracle.jdbc.driver.OracleDriver" />
+				<property name="url"
+					value="jdbc:oracle:thin:@localhost:1521:xe" />
+				<property name="username" value="hr" />
+				<property name="password" value="hr" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 2. 테이블 관련 sql 정의 매핑파일 설정 -->
+	<mappers>
+		<!-- 별도로 생성한 sql파일(emp-mapping)과 매핑 -->
+		<!-- 다양한 매핑 테이블 생성 가능 -->
+		<mapper resource="mybatis/emp-mapping.xml" />
+		<!-- 
+		<mapper resource="mybatis/board-mapping.xml"/> 
+		<mapper resource="mybatis/member-mapping.xml"/> 
+		<mapper resource="mybatis/product-mapping.xml"/> 
+		<mapper resource="mybatis/bakery-mapping.xml"/>
+		 -->
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

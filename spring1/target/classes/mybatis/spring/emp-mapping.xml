@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="emp">
+
+	<select id="allemp" resultType="emp">		
+		select employee_id, (last_name ||'_'|| first_name) last_name,
+		to_char(hire_date, 'YYYY-MM-DD') hire_date from employees 
+	</select>
+
+	<select id="oneemp" resultType="emp" parameterType="int">
+		select * from employees where employee_id = #{id}
+		<!-- #{employee_id} => 변수 이름이라는 선언, 변수 이름은 상관 없음 -->
+	</select>
+
+	<select id="manyemp" resultType="emp" parameterType="int">
+		<![CDATA[select * from employees where employee_id <= #{employee_id}]]>
+		<!-- 
+			<부등호 표시를 태그로 인식하는 문제가 발생 
+				=> <![CDATA[문자열]]> : 문자열 그대로 인식
+		-->
+	</select>
+	
+	<!-- resultType : X -->
+	<insert id="insertemp" parameterType="emp">
+		insert into employees(employee_id, first_name, last_name, email, hire_date, job_id, department_id)
+		values(#{employee_id}, #{first_name}, #{last_name}, #{email}, sysdate, #{job_id}, #{department_id})
+		<!-- EmpVO의 변수명과 같게 지정해 주어야함 -->
+		<!-- #{employee_id} == EmpVo.getEmployee_id() -->
+	</insert>
+
+	<update id="updateemp" parameterType="emp">
+		update employees set last_name = #{last_name} where employee_id = #{employee_id}
+		<!-- parameter가 2개 이상인 경우 Type을 객체로 줘야함  -->
+	</update>
+	
+	<delete id="deleteemp" parameterType="int">
+		delete employees where employee_id = #{employee_id}
+	</delete>
+	
+	<delete id="deletehistory" parameterType="int">
+		delete employees where employee_id = #{employee_id}
+	</delete>
+
+	<select id="empcnt" resultType="int">
+		select count(*) from employees
+	</select>
+
+	<select id="emppaging" resultType="emp" parameterType="int[]">
+		select employee_id, last_name, hire_date
+		from(
+		select rownum r, employee_id, last_name, hire_date
+		from (select * from employees order by hire_date desc)
+		)
+		where r between
+		<foreach collection="array" item="r" separator="and">
+			#{r}
+		</foreach>
+	</select>
+
+	<!-- 배열 -> ArrayList -->
+	<select id="getdept_id" resultType="emp"
+		parameterType="java.util.List">
+		select employee_id, last_name, department_id
+		from (select * from employees order by department_id)
+		where department_id in
+		<foreach open="(" close=")" collection="list" item="d"
+			separator=",">#{d}</foreach>
+	</select>
+
+
+	<select id="empdynamic" resultType="emp"
+		parameterType="java.util.HashMap">
+		select first_name, last_name
+		from employees
+		where ${column} = #{word}
+		<!-- $ : '' X, # : '' O -->
+	</select>
+	
+	<select id="getJobId" resultType="String">
+		select job_id from jobs		
+	</select>
+	
+	<select id="getDeptId" resultType="int">
+		select department_id from departments		
+	</select>
+
+</mapper>
+<!-- where r between #{array[0]} and #{array[1]} -->
+<!-- <![CDATA[ select * from employees where employee_id <= #{emp_id} ]]> -->
+
+<!-- 5> select rownum, employee_id, salary 1> from employees 2> where 3> 
+	group by 4> having 6> order by salary desc; -->
+
+
+
+
+

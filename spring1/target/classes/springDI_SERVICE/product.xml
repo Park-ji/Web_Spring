@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="service1" class="springDI_SERVICE.ProductServiceGeneral">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="service2" class="springDI_SERVICE.ProductService12">
+		<property name="dao" ref="dao" />
+	</bean>
+	<bean id="service3" class="springDI_SERVICE.ProductService05">
+		<property name="dao" ref="dao" />
+	</bean>
+
+	<bean id="dao" class="springDI_SERVICE.ProductDAO">
+		<!-- dao.setVo 호출 -->
+		<property name="vo" ref="vo" />
+	</bean>
+
+	<bean id="vo" class="springDI_SERVICE.ProductVO">
+		<property name="code" value="1000" /><!-- property 태그 의미 : setter메서드 
+			호출 -->
+		<property name="name" value="스프링 컴퓨터" />
+		<property name="price" value="500000" />
+		<!-- sale, coupon : ProductDAO에서 값에 따라 저장함 -->
+	</bean>
+
+</beans>

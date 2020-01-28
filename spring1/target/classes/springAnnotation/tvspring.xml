@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- <bean id="tv" class="spring.LgTv"/>
+<bean id="tv2" class="spring.SamsungTV"/>  -->
+
+<!-- 원하는 패키지 안에 있는 모든 annotation 내용 가지고 옴 : component-scan -->
+<!-- 원하는 패키지가 여러개? 태그 여러번 설정 -->
+
+<context:component-scan base-package="springAnnotation"/>
+
+<!-- 
+@annotation있는 파일과 같은 이름의 객체 생성 bean파일 선언시? 오류 X
+-> 생성자 한번만 호출됨 (이유? 기본적인 속성 singleton이므로)
+-> 변경시
+1) xml : scope속성 사용
+2) 어노테이션 : @Scope("prototype") 처럼 바꿈
+하지만, 기본속성이 sinlgeton을 제일많이 사용함
+-->
+<bean id="lgTv" class="springAnnotation.LgTv" scope="prototype"/>
+
+
+</beans>

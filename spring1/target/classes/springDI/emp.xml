@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 아래의 bean태그 생성 순서는 아무 상관 X -->
+	<bean id="vo" class="springDI.EmpVO">
+	<property name = "id" value = "100"/>
+	<property name = "name" value = "김사원"/>
+	<property name = "salary" value = "12300.99"/>
+	</bean>
+	
+	<bean id="dao" class="springDI.EmpDAO">
+  	<!-- name은 숫자, 논리값, 문자만 가능 -->
+ 	<!-- 객체 사용하려면? ref속성 사용 -->
+	<property name = "vo" ref = "vo"/><!-- 위에 만든 객체 vo를 사용 -->
+	</bean>	
+
+</beans>

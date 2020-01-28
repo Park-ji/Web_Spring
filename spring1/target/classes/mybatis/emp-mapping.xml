@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 선언부분 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper태그의 namespace속성은 정의안해도 됐지만, 해당 버전은 필수! -->
+<!-- allemp 호출시? emp.allemp -->
+<!-- 앞으로 mapper태그가 많아질때, namespace이름으로 구분하라는 의미 -->
+<mapper namespace="emp">
+	<!-- resultType? sql실행문 결과 타입 : 여러개가 나와도 SQL 레코드 하나의 타입을 작성 -->
+	<!-- emp? mybatis-config.xml에서 alias준것 -->
+	<!-- 즉, 실행한 결과의 타입을 mabatis.EmpVO타입으로 받겠다. -->
+	<select id="allemp" resultType="emp">
+		select * from employees
+	</select>
+	<select id="oneemp" resultType="emp" parameterType="int">
+		select * from employees where employee_id = #{id}<!-- #{변수명} : 변수명은 상관 
+			X -->
+	</select>
+	<select id="manyemp" resultType="emp" parameterType="int">
+		<![CDATA[select * from employees where employee_id <= #{id}]]><!-- #{변수명} 
+			: 변수명은 상관 X -->
+		<!-- employee_id >= 는 OK employee_id <= 는 '<'가 태그로 인식됨(이유? 해당파일은 XML파일이므로) 
+			ex) <select> 를 태그가 아닌 데이터로 쓰고 싶으면? <![CDATA[문장]]> : '문장'부분은 문장이라고 사용하는 부분 -->
+	</select>
+
+	<!-- parameterType으로 객체가 전달될때는? 변수명 중요! -->
+	<!-- 해당 객체의 변수명의 getter메소드 -->
+	<!-- ex) #{employee_id} = #{EmpVO객체.getEmployee_id()} -->
+	<insert id="insertemp" parameterType="emp">
+		insert into
+		employees(employee_id, last_name, email, hire_date, job_id,
+		department_id) values(#{employee_id}, #{last_name}, #{email}, sysdate,
+		#{job_id}, #{department_id})
+	</insert>
+	<!-- parameter가 2개 이상이면 무조건 vo/배열/리스트와 같은 형식을 넘겨야함 -->
+	<update id="updateemp" parameterType="emp">
+		update employees
+		set
+		last_name = #{last_name}
+		where employee_id = #{employee_id}
+	</update>
+
+	<!-- 사번 1000번 사원 삭제 -->
+	<!-- delete 여러개 sql? delete 태그 여러개 -->
+	<delete id="deleteemp" parameterType="int">
+		delete employees where
+		employee_id = #{employee_id}
+	</delete>
+	<delete id="deletehistory" parameterType="int">
+		delete job_history where
+		employee_id = #{employee_id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+

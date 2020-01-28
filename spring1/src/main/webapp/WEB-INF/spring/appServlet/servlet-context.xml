@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- 
+	3. 실제 View의 이름이 만들어지는 과정 : mav.setViewName("hello")
+	prefix + setViewName + suffix해서 파일경로 생성됨 : /WEB-INF/views/hello.jsp
+	- 이해만 하자, spring의 규칙임
+	 -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- <context:component-scan base-package="kitri.edu.mvc" /> -->
+	<context:component-scan base-package="mybatis.spring" />
+	<!-- <context:component-scan base-package="member"/> -->
+	<!-- 최초로 만들어진 프로젝트로 선언됨 -->
+	<!-- 필요하다면 추가 -->
+<!-- 	<context:component-scan base-package="board" /> -->
+	
+	<!-- 1. mvc 패키지의 컨트롤러 사용시 사용자 정의 객체 생성(annotation사용 안할때) -->
+<!-- 	<beans:bean class="mvc.HelloController" id="hc"/>  -->
+<!-- 	<beans:bean class="mvc.BoardController" id="bc"/>
+	<beans:bean class="mvc.MemberController" id="mc"/> -->
+	<!-- <beans:bean class="mvc.EmpController" id="ec"/> -->
+	
+	<!-- 2. 스프링에서 HandlerMapping 객체 생성해서 전달 -->
+	<!-- org.springframework..로 시작? spring내장 API -->
+<!-- 	<beans:bean
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<beans:property name="mappings">
+			<beans:props>Map 생성하는 xml 태그
+				<beans:prop key="/hello.mvc"> hc </beans:prop>new HelloController라고 사용 X
+				<beans:prop key="/boardwrite"> bc </beans:prop>
+				<beans:prop key="/member.front"> mc </beans:prop>
+				<beans:prop key="/emp.spring"> ec </beans:prop>
+			</beans:props>
+		</beans:property> setter 메서드
+	</beans:bean> -->
+	
+	<!-- EmpDAO BEAN 생성해서 컨트롤러에 전달 -->
+	<!-- annotation 사용 -->
+	<!-- <beans:bean id="empdao" class="kitri.edu.mvc.EmpDAO"/> -->
+	
+	<!-- websocket시 필요 -->
+<!-- 	<websocket:handlers> -->
+	<!-- handler? 어떠한 bean을 핸들러로 쓸것인지? @Component이름 -->
+	<!-- 
+	path? websocket호출시 url필요
+	사용 프로토콜? ws(http X)
+	"ws://ip:port/컨텍스트명/매핑url"
+	실습에서 사용할 url? /chatws
+	 --><!-- 
+	<websocket:mapping handler="chatwebsockethandler" path="/chatws"/>
+ -->	<!-- 즉 '/chatws'로 요청들어오면 chatwebsockethandler와 매핑하겠다 -->
+<!-- 	</websocket:handlers>
+	 -->
+	<!-- 파일 업로드시 필요 -->
+	<!-- 아래 경로는 commons-fileupload.jar파일에 있음 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	<!-- 경로 너무 길때 tip? spring java 파일에서 import따오기 -->
+</beans:beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
